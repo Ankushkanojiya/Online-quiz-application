@@ -3,7 +3,7 @@ package com.ak.onlinequiz.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Option {
+public class MultipleOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

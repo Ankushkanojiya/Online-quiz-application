@@ -18,6 +18,6 @@ public class Question {
     private Quiz quiz;
 
     @OneToMany(mappedBy = "question")
-    private List<Option> optionList;
+    private List<MultipleOption> optionList;
 
 }
