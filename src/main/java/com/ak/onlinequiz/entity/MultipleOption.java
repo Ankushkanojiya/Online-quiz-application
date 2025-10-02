@@ -1,8 +1,10 @@
 package com.ak.onlinequiz.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class MultipleOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
