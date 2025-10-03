@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 public class OptionResponse {
     private Long id;
     private String optionText;
