@@ -4,6 +4,7 @@ import com.ak.onlinequiz.dto.*;
 import com.ak.onlinequiz.entity.MultipleOption;
 import com.ak.onlinequiz.entity.Question;
 import com.ak.onlinequiz.entity.Quiz;
+import com.ak.onlinequiz.repository.MultipleOptionRepository;
 import com.ak.onlinequiz.repository.QuestionRepository;
 import com.ak.onlinequiz.repository.QuizRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +23,7 @@ public class QuizService {
 
     private final QuizRepository quizRepo;
     private final QuestionRepository questionRepo;
+    private final MultipleOptionRepository optionRepo;
 
     public QuizResponse createQuiz(CreateQuizRequest request) {
         Quiz quiz = Quiz.builder()
@@ -113,5 +116,20 @@ public class QuizService {
         }
 
         return response;
+    }
+
+
+    public SubmitResponse submitQuizEvaluation(Long quizI,SubmitRequest request){
+        if (!quizRepo.existsById(quizI)) throw new EntityNotFoundException("Quiz not foun");
+
+        int correctAnswer=0;
+        for (AnswerRequest answerRequest:request.getAnswers()) {
+            Optional<MultipleOption> correctOption = optionRepo.findByQuestionIdAndIsCorrectTrue(answerRequest.getId());
+
+            if (correctOption.isPresent() && correctOption.get().getId().equals(answerRequest.getSelectedOptionId())) {
+                correctAnswer++;
+            }
+        }
+        return new SubmitResponse(correctAnswer,request.getAnswers().size());
     }
 }

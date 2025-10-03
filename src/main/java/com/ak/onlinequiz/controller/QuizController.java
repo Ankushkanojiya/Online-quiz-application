@@ -1,9 +1,6 @@
 package com.ak.onlinequiz.controller;
 
-import com.ak.onlinequiz.dto.CreateQuizRequest;
-import com.ak.onlinequiz.dto.QuestionRequest;
-import com.ak.onlinequiz.dto.QuestionResponse;
-import com.ak.onlinequiz.dto.QuizResponse;
+import com.ak.onlinequiz.dto.*;
 import com.ak.onlinequiz.entity.Question;
 import com.ak.onlinequiz.entity.Quiz;
 import com.ak.onlinequiz.repository.QuizRepository;
@@ -40,5 +37,11 @@ public class QuizController {
     public ResponseEntity<List<QuestionResponse>> fetchQuestionsForQuiz(@PathVariable Long quizId){
         List<QuestionResponse> question=quizService.fetchQuestionOfQuiz(quizId);
         return ResponseEntity.status(HttpStatus.OK).body(question);
+    }
+
+    @PostMapping("/{quizI}/submit")
+    public ResponseEntity<SubmitResponse> submitQuizEvaluation(@PathVariable Long quizI,@RequestBody SubmitRequest request){
+        SubmitResponse response=quizService.submitQuizEvaluation(quizI,request);
+        return ResponseEntity.ok(response);
     }
 }
