@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AnswerRequest {
-    private Long id;
+    private Long questionId;
     private Long selectedOptionId;
 }

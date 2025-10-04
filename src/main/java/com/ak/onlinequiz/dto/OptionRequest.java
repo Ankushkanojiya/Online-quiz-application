@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 public class OptionRequest {
     @NotBlank
     private String optionText;
-    private boolean isCorrect;
+    private boolean correct;
 }
 

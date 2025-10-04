@@ -119,17 +119,18 @@ public class QuizService {
     }
 
 
-    public SubmitResponse submitQuizEvaluation(Long quizI,SubmitRequest request){
-        if (!quizRepo.existsById(quizI)) throw new EntityNotFoundException("Quiz not foun");
+    public SubmitResponse submitQuizEvaluation(Long quizId,SubmitRequest request){
+        if (!quizRepo.existsById(quizId)) throw new EntityNotFoundException("Quiz not found");
 
         int correctAnswer=0;
         for (AnswerRequest answerRequest:request.getAnswers()) {
-            Optional<MultipleOption> correctOption = optionRepo.findByQuestionIdAndIsCorrectTrue(answerRequest.getId());
+           Optional<MultipleOption> correctOption = optionRepo.findByQuestionIdAndIsCorrectTrue(answerRequest.getQuestionId());
 
             if (correctOption.isPresent() && correctOption.get().getId().equals(answerRequest.getSelectedOptionId())) {
                 correctAnswer++;
             }
         }
-        return new SubmitResponse(correctAnswer,request.getAnswers().size());
+        int totalQuestions=questionRepo.countByQuizId(quizId);
+        return new SubmitResponse(correctAnswer,totalQuestions); //
     }
 }

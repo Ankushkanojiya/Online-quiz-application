@@ -5,6 +5,7 @@ import com.ak.onlinequiz.entity.Question;
 import com.ak.onlinequiz.entity.Quiz;
 import com.ak.onlinequiz.repository.QuizRepository;
 import com.ak.onlinequiz.service.QuizService;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,12 +37,12 @@ public class QuizController {
     @GetMapping("/{quizId}/fetchQuestion")
     public ResponseEntity<List<QuestionResponse>> fetchQuestionsForQuiz(@PathVariable Long quizId){
         List<QuestionResponse> question=quizService.fetchQuestionOfQuiz(quizId);
-        return ResponseEntity.status(HttpStatus.OK).body(question);
+        return ResponseEntity.ok(question);
     }
 
-    @PostMapping("/{quizI}/submit")
-    public ResponseEntity<SubmitResponse> submitQuizEvaluation(@PathVariable Long quizI,@RequestBody SubmitRequest request){
-        SubmitResponse response=quizService.submitQuizEvaluation(quizI,request);
+    @PostMapping("/{quizId}/submit")
+    public ResponseEntity<SubmitResponse> submitQuizEvaluation(@PathVariable Long quizId, @Valid @RequestBody SubmitRequest request){
+        SubmitResponse response=quizService.submitQuizEvaluation(quizId,request);
         return ResponseEntity.ok(response);
     }
 }
