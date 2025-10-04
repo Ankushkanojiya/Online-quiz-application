@@ -15,7 +15,6 @@ public class QuestionRequest {
     @NotBlank
     private String questionText;
     @NotEmpty
-    @Size(min = 4, message = "question should have 4 options")
     private List<OptionRequest> optionRequestList;
 
 
